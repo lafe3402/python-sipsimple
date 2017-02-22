@@ -89,7 +89,7 @@ class PJSIP_build_ext(build_ext):
     boolean_options.extend(["pjsip-clean-compile", "pjsip-disable-assertions", "pjsip-verbose-build"])
 
     @staticmethod
-    def distutils_exec_process(cmdline, silent=True, input=None, **kwargs):
+    def distutils_exec_process(cmdline, silent=False, input=None, **kwargs):
         """Execute a subprocess and returns the returncode, stdout buffer and stderr buffer.
         Optionally prints stdout and stderr while running."""
         try:
@@ -105,7 +105,7 @@ class PJSIP_build_ext(build_ext):
             else:
                 raise
         if returncode != 0:
-            raise RuntimeError('Got return value %d while executing "%s", stderr output was:\n%s' % (returncode, " ".join(cmdline), stderr.rstrip("\n")))
+            raise RuntimeError('Got return value %d while executing "%s", stderr output was:\n%s' % (returncode, bytes(" ".join(cmdline),"UTF-8"), bytes(stderr.rstrip("\n"),"UTF-8"))
         return stdout
 
     @staticmethod
